@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vrai / Faux – Vocabulaire Leçons 1 à 10</title>
+  <style>
+    :root { --rose:#c2697c; --deep:#7a3347; --pale:#f8ecef; --gold:#c9a84c; --dark:#1e1318; --mid:#6b5460; --border:#eddde3; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Segoe UI',Arial,sans-serif; background:#f5eff2; height:100vh; display:flex; flex-direction:column; align-items:center; padding:16px 16px 20px; color:var(--dark); overflow:hidden; }
+    .top-strip { width:100%; max-width:600px; height:4px; background:linear-gradient(90deg,var(--deep),var(--rose),var(--gold)); border-radius:2px; margin-bottom:12px; }
+    header { background:linear-gradient(135deg,var(--deep) 0%,#a04560 100%); color:white; width:100%; max-width:600px; border-radius:14px; padding:13px 24px; text-align:center; margin-bottom:14px; position:relative; overflow:hidden; box-shadow:0 4px 18px rgba(122,51,71,.25); }
+    header::before { content:'البداية'; font-size:6rem; font-weight:700; color:rgba(255,255,255,.06); position:absolute; right:-1rem; top:-1.5rem; line-height:1; pointer-events:none; font-family:Arial,sans-serif; direction:rtl; }
+    header .ar { font-size:1.1rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; margin-bottom:4px; position:relative; opacity:.95; }
+    header h1 { font-size:.85rem; font-weight:600; opacity:.9; position:relative; }
+    .progress-bar { width:100%; max-width:600px; height:7px; background:var(--border); border-radius:4px; margin-bottom:10px; overflow:hidden; }
+    .progress-fill { height:100%; background:linear-gradient(90deg,var(--rose),var(--gold)); border-radius:4px; transition:width .4s ease; }
+    .counter { font-size:.8rem; color:var(--mid); font-weight:600; margin-bottom:18px; }
+
+    .pair-card { background:white; border:2px solid var(--border); border-radius:18px; padding:28px 24px; text-align:center; width:100%; max-width:600px; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 4px 20px rgba(122,51,71,.1); margin-bottom:18px; transition:border-color .2s, background .2s; min-height:0; }
+    .pair-card.correct { background:#fdf5e0; border-color:var(--gold); }
+    .pair-card.wrong { background:#fce8ec; border-color:#e53935; }
+    .pair-label { font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; color:var(--mid); margin-bottom:16px; }
+    .pair-arabic { font-size:3.2rem; direction:rtl; font-family:Arial,'Geeza Pro',serif; color:var(--deep); margin-bottom:12px; line-height:1.3; }
+    .pair-sep { font-size:1.4rem; color:var(--mid); margin-bottom:12px; }
+    .pair-french { font-size:1.6rem; font-weight:700; color:var(--dark); }
+    .feedback { font-size:1rem; font-weight:700; margin-top:14px; opacity:0; transition:opacity .2s; }
+    .feedback.show { opacity:1; }
+    .feedback.ok { color:#7a600a; }
+    .feedback.ko { color:#b71c1c; }
+
+    .btns { display:flex; gap:14px; width:100%; max-width:600px; }
+    .btn-vrai { flex:1; background:#e8f5e9; border:2px solid #66bb6a; color:#2e7d32; border-radius:14px; padding:16px; font-size:1.1rem; font-weight:700; cursor:pointer; transition:all .15s; }
+    .btn-faux { flex:1; background:#fce8ec; border:2px solid #ef5350; color:#c62828; border-radius:14px; padding:16px; font-size:1.1rem; font-weight:700; cursor:pointer; transition:all .15s; }
+    .btn-vrai:hover:not(:disabled) { background:#66bb6a; color:white; }
+    .btn-faux:hover:not(:disabled) { background:#ef5350; color:white; }
+    .btn-vrai:disabled, .btn-faux:disabled { opacity:.45; cursor:default; }
+
+    .score-bar { display:flex; gap:10px; margin-top:14px; }
+    .pill { background:white; border:1.5px solid var(--border); border-radius:20px; padding:5px 16px; font-weight:700; color:var(--deep); font-size:.8rem; }
+
+    button.restart { background:var(--rose); color:white; border:none; border-radius:10px; padding:9px 24px; font-size:.85rem; cursor:pointer; font-weight:600; font-family:'Segoe UI',Arial,sans-serif; box-shadow:0 2px 8px rgba(194,105,124,.3); margin-top:10px; }
+    button.restart:hover { background:var(--deep); }
+
+    .celebration { display:none; position:fixed; inset:0; background:rgba(122,51,71,.92); z-index:999; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; }
+    .celebration.visible { display:flex; }
+    .lollipop { font-size:11rem; animation:popIn .6s cubic-bezier(.175,.885,.32,1.275) forwards, wobble 1.2s ease-in-out .6s infinite; margin-bottom:14px; }
+    @keyframes popIn { 0%{transform:scale(0) rotate(-20deg);opacity:0} 100%{transform:scale(1) rotate(0);opacity:1} }
+    @keyframes wobble { 0%,100%{transform:rotate(-6deg) scale(1)} 50%{transform:rotate(6deg) scale(1.05)} }
+    .mashallah { font-size:3rem; font-family:Arial,'Geeza Pro',serif; direction:rtl; color:#f9d97a; font-weight:700; text-shadow:0 2px 12px rgba(0,0,0,.4); animation:fadeUp .5s ease .4s both; margin-bottom:10px; }
+    .praise { font-size:1.4rem; font-family:Arial,'Geeza Pro',serif; direction:rtl; color:white; animation:fadeUp .5s ease .6s both; margin-bottom:6px; }
+    .praise-fr { font-size:.95rem; color:rgba(255,255,255,.8); animation:fadeUp .5s ease .75s both; margin-bottom:24px; }
+    .stars-row { font-size:1.8rem; letter-spacing:8px; animation:fadeUp .5s ease .9s both; margin-bottom:24px; }
+    @keyframes fadeUp { 0%{opacity:0;transform:translateY(20px)} 100%{opacity:1;transform:translateY(0)} }
+    .btn-restart2 { background:#f9d97a; color:var(--deep); border:none; border-radius:12px; padding:13px 32px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:'Segoe UI',Arial,sans-serif; animation:fadeUp .5s ease 1s both; transition:background .15s,transform .1s; box-shadow:0 4px 16px rgba(0,0,0,.25); }
+    .btn-restart2:hover { background:white; transform:scale(1.04); }
+  </style>
+</head>
+<body>
+  <div class="top-strip"></div>
+  <header>
+    <div class="ar">BIDAYAH &mdash; Exercices vocabulaire</div>
+    <h1>✨ Vrai / Faux · Vocabulaire – Leçons 1 à 10</h1>
+  </header>
+  <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+  <div class="counter" id="counter">Question 1 / 10</div>
+
+  <div class="pair-card" id="pair-card">
+    <div class="pair-label">Cette paire est-elle correcte ?</div>
+    <div class="pair-arabic" id="ar"></div>
+    <div class="pair-sep">⟶</div>
+    <div class="pair-french" id="fr"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <div class="btns">
+    <button class="btn-vrai" id="btn-v" onclick="answer(true)">✓ Vrai</button>
+    <button class="btn-faux" id="btn-f" onclick="answer(false)">✗ Faux</button>
+  </div>
+
+  <div class="score-bar">
+    <div class="pill">✓ <span id="good">0</span></div>
+    <div class="pill">✗ <span id="bad">0</span></div>
+  </div>
+  <button class="restart" onclick="init()">🔄 Recommencer</button>
+
+  <div class="celebration" id="celebration">
+    <div class="lollipop">🍭</div>
+    <div class="mashallah">مَا شَاءَ اللهُ</div>
+    <div class="praise">أَحْسَنْتِ ! بَارَكَ اللهُ فِيكِ</div>
+    <div class="praise-fr">Bravo ! Tu as tout réussi !</div>
+    <div class="stars-row">🌸 ⭐ 🌸 ⭐ 🌸</div>
+    <button class="btn-restart2" onclick="closeRestart()">🔄 Recommencer</button>
+  </div>
+
+<script>
+  const PAIRS = [
+    {ar:'بَابٌ',fr:'porte'},{ar:'تُوتٌ',fr:'mûre'},{ar:'دُودٌ',fr:'ver'},
+    {ar:'دَارٌ',fr:'maison'},{ar:'كِتَابٌ',fr:'livre'},{ar:'سَرِيرٌ',fr:'lit'},
+    {ar:'لِبَاسٌ',fr:'vêtement'},{ar:'جَبَلٌ',fr:'montagne'},{ar:'مَسْجِدٌ',fr:'mosquée'},{ar:'حَاسِبَةٌ',fr:'calculatrice'}
+  ];
+  let queue, idx, good, bad;
+
+  function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b;}
+
+  function buildQueue(){
+    const q=[];
+    shuffle(PAIRS).forEach((p,i)=>{
+      q.push({ar:p.ar, fr:p.fr, correct:true});
+      const wrong=PAIRS.filter(x=>x.fr!==p.fr);
+      q.push({ar:p.ar, fr:shuffle(wrong)[0].fr, correct:false});
+    });
+    return shuffle(q).slice(0,10);
+  }
+
+  function init(){
+    queue=buildQueue(); idx=0; good=0; bad=0;
+    document.getElementById('good').textContent='0';
+    document.getElementById('bad').textContent='0';
+    document.getElementById('celebration').classList.remove('visible');
+    show();
+  }
+
+  function show(){
+    const q=queue[idx];
+    document.getElementById('ar').textContent=q.ar;
+    document.getElementById('fr').textContent=q.fr;
+    document.getElementById('counter').textContent=`Question ${idx+1} / 10`;
+    document.getElementById('prog').style.width=`${idx*10}%`;
+    document.getElementById('feedback').className='feedback';
+    document.getElementById('feedback').textContent='';
+    document.getElementById('pair-card').className='pair-card';
+    document.getElementById('btn-v').disabled=false;
+    document.getElementById('btn-f').disabled=false;
+  }
+
+  function answer(said){
+    const q=queue[idx];
+    const ok=said===q.correct;
+    document.getElementById('btn-v').disabled=true;
+    document.getElementById('btn-f').disabled=true;
+    const fb=document.getElementById('feedback');
+    const card=document.getElementById('pair-card');
+    if(ok){
+      good++; card.classList.add('correct');
+      fb.textContent='✓ Bonne réponse !'; fb.className='feedback show ok';
+      document.getElementById('good').textContent=good;
+    } else {
+      bad++; card.classList.add('wrong');
+      const hint=q.correct?'Cette paire est correcte !':'La bonne traduction est : '+PAIRS.find(p=>p.ar===q.ar).fr;
+      fb.textContent='✗ '+hint; fb.className='feedback show ko';
+      document.getElementById('bad').textContent=bad;
+    }
+    setTimeout(()=>{
+      idx++;
+      if(idx>=queue.length){
+        document.getElementById('prog').style.width='100%';
+        setTimeout(()=>document.getElementById('celebration').classList.add('visible'),400);
+      } else show();
+    },1100);
+  }
+
+  function closeRestart(){document.getElementById('celebration').classList.remove('visible');init();}
+  init();
+</script>
+</body>
+</html>
