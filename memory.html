@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory – Vocabulaire Leçons 1 à 10</title>
+  <style>
+    :root { --rose:#c2697c; --deep:#7a3347; --pale:#f8ecef; --gold:#c9a84c; --dark:#1e1318; --mid:#6b5460; --border:#eddde3; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Segoe UI',Arial,sans-serif; background:#f5eff2; height:100vh; display:flex; flex-direction:column; align-items:center; padding:12px 12px 16px; color:var(--dark); overflow:hidden; }
+    .top-strip { width:100%; max-width:720px; height:4px; background:linear-gradient(90deg,var(--deep),var(--rose),var(--gold)); border-radius:2px; margin-bottom:10px; }
+    header { background:linear-gradient(135deg,var(--deep) 0%,#a04560 100%); color:white; width:100%; max-width:720px; border-radius:14px; padding:11px 22px; text-align:center; margin-bottom:12px; position:relative; overflow:hidden; box-shadow:0 4px 18px rgba(122,51,71,.25); }
+    header::before { content:'البداية'; font-size:5rem; font-weight:700; color:rgba(255,255,255,.06); position:absolute; right:-.5rem; top:-1rem; line-height:1; pointer-events:none; font-family:Arial,sans-serif; direction:rtl; }
+    header .ar { font-size:1.3rem; direction:rtl; font-family:Arial,'Geeza Pro',serif; margin-bottom:2px; position:relative; }
+    header h1 { font-size:.82rem; font-weight:600; opacity:.9; position:relative; }
+
+    .score-bar { display:flex; gap:10px; margin-bottom:12px; }
+    .pill { background:white; border:1.5px solid var(--border); border-radius:20px; padding:5px 16px; font-weight:700; color:var(--deep); font-size:.8rem; }
+
+    /* GRILLE */
+    .grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; width:100%; max-width:720px; flex:1; min-height:0; }
+    .cell { perspective:600px; cursor:pointer; min-height:0; }
+    .cell-inner { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform .45s ease; border-radius:10px; }
+    .cell.flipped .cell-inner { transform:rotateY(180deg); }
+    .cell.matched .cell-inner { transform:rotateY(180deg); }
+    .cell-face { position:absolute; inset:0; backface-visibility:hidden; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:4px; text-align:center; }
+    .cell-back-face { background:linear-gradient(135deg,var(--deep),var(--rose)); border:2px solid transparent; }
+    .cell-back-face::after { content:'🌸'; font-size:1.4rem; }
+    .cell-front-face { background:white; border:2px solid var(--border); transform:rotateY(180deg); flex-direction:column; gap:2px; }
+    .cell.matched .cell-front-face { background:#fdf5e0; border-color:var(--gold); }
+    .cell-ar { font-size:1.35rem; direction:rtl; font-family:Arial,'Geeza Pro',serif; color:var(--deep); line-height:1.2; }
+    .cell-fr { font-size:.82rem; font-weight:600; color:var(--dark); }
+    .cell-type { font-size:.6rem; text-transform:uppercase; letter-spacing:.05em; color:var(--mid); }
+
+    button.restart { background:var(--rose); color:white; border:none; border-radius:10px; padding:8px 22px; font-size:.82rem; cursor:pointer; font-weight:600; font-family:'Segoe UI',Arial,sans-serif; box-shadow:0 2px 8px rgba(194,105,124,.3); margin-top:10px; }
+    button.restart:hover { background:var(--deep); }
+
+    .celebration { display:none; position:fixed; inset:0; background:rgba(122,51,71,.92); z-index:999; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; }
+    .celebration.visible { display:flex; }
+    .lollipop { font-size:10rem; animation:popIn .6s cubic-bezier(.175,.885,.32,1.275) forwards, wobble 1.2s ease-in-out .6s infinite; margin-bottom:12px; }
+    @keyframes popIn { 0%{transform:scale(0) rotate(-20deg);opacity:0} 100%{transform:scale(1) rotate(0);opacity:1} }
+    @keyframes wobble { 0%,100%{transform:rotate(-6deg) scale(1)} 50%{transform:rotate(6deg) scale(1.05)} }
+    .mashallah { font-size:2.8rem; font-family:Arial,'Geeza Pro',serif; direction:rtl; color:#f9d97a; font-weight:700; text-shadow:0 2px 12px rgba(0,0,0,.4); animation:fadeUp .5s ease .4s both; margin-bottom:8px; }
+    .praise { font-size:1.3rem; font-family:Arial,'Geeza Pro',serif; direction:rtl; color:white; animation:fadeUp .5s ease .6s both; margin-bottom:6px; }
+    .praise-fr { font-size:.9rem; color:rgba(255,255,255,.8); animation:fadeUp .5s ease .75s both; margin-bottom:20px; }
+    .stars-row { font-size:1.6rem; letter-spacing:8px; animation:fadeUp .5s ease .9s both; margin-bottom:20px; }
+    @keyframes fadeUp { 0%{opacity:0;transform:translateY(20px)} 100%{opacity:1;transform:translateY(0)} }
+    .btn-restart2 { background:#f9d97a; color:var(--deep); border:none; border-radius:12px; padding:12px 30px; font-size:.9rem; font-weight:700; cursor:pointer; font-family:'Segoe UI',Arial,sans-serif; animation:fadeUp .5s ease 1s both; transition:background .15s,transform .1s; box-shadow:0 4px 16px rgba(0,0,0,.25); }
+    .btn-restart2:hover { background:white; transform:scale(1.04); }
+  </style>
+</head>
+<body>
+  <div class="top-strip"></div>
+  <header>
+    <div class="ar">أَتَعَلَّمُ العَرَبِيَّةَ</div>
+    <h1>✨ Memory · Vocabulaire – Leçons 1 à 10</h1>
+  </header>
+  <div class="score-bar">
+    <div class="pill">🌸 <span id="matched">0</span> / 10 paires</div>
+    <div class="pill">Essais : <span id="tries">0</span></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <button class="restart" onclick="init()">🔄 Recommencer</button>
+
+  <div class="celebration" id="celebration">
+    <div class="lollipop">🍭</div>
+    <div class="mashallah">مَا شَاءَ اللهُ</div>
+    <div class="praise">أَحْسَنْتِ ! بَارَكَ اللهُ فِيكِ</div>
+    <div class="praise-fr">Toutes les paires trouvées !</div>
+    <div class="stars-row">🌸 ⭐ 🌸 ⭐ 🌸</div>
+    <button class="btn-restart2" onclick="closeRestart()">🔄 Recommencer</button>
+  </div>
+
+<script>
+  const PAIRS = [
+    {ar:'بَابٌ',fr:'porte'},{ar:'تُوتٌ',fr:'mûre'},{ar:'دُودٌ',fr:'ver'},
+    {ar:'دَارٌ',fr:'maison'},{ar:'كِتَابٌ',fr:'livre'},{ar:'سَرِيرٌ',fr:'lit'},
+    {ar:'لِبَاسٌ',fr:'vêtement'},{ar:'جَبَلٌ',fr:'montagne'},{ar:'مَسْجِدٌ',fr:'mosquée'},{ar:'حَاسِبَةٌ',fr:'calculatrice'}
+  ];
+
+  let flipped=[], locked=false, matchedCount=0, tries=0;
+
+  function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b;}
+
+  function init(){
+    matchedCount=0; tries=0; flipped=[]; locked=false;
+    document.getElementById('matched').textContent='0';
+    document.getElementById('tries').textContent='0';
+    document.getElementById('celebration').classList.remove('visible');
+
+    const cards=[];
+    PAIRS.forEach(p=>{
+      cards.push({id:p.ar, type:'ar', ar:p.ar, fr:p.fr});
+      cards.push({id:p.ar, type:'fr', ar:p.ar, fr:p.fr});
+    });
+    const shuffled=shuffle(cards);
+    const grid=document.getElementById('grid');
+    grid.innerHTML='';
+    shuffled.forEach((c,i)=>{
+      const cell=document.createElement('div');
+      cell.className='cell';
+      cell.dataset.id=c.id;
+      cell.dataset.type=c.type;
+      cell.dataset.idx=i;
+      cell.innerHTML=`<div class="cell-inner">
+        <div class="cell-face cell-back-face"></div>
+        <div class="cell-face cell-front-face">
+          ${c.type==='ar'
+            ? `<div class="cell-type">arabe</div><div class="cell-ar">${c.ar}</div>`
+            : `<div class="cell-type">français</div><div class="cell-fr">${c.fr}</div>`
+          }
+        </div>
+      </div>`;
+      cell.addEventListener('click',()=>onFlip(cell));
+      grid.appendChild(cell);
+    });
+  }
+
+  function onFlip(cell){
+    if(locked || cell.classList.contains('flipped') || cell.classList.contains('matched')) return;
+    cell.classList.add('flipped');
+    flipped.push(cell);
+    if(flipped.length===2){
+      tries++;
+      document.getElementById('tries').textContent=tries;
+      locked=true;
+      const [a,b]=flipped;
+      if(a.dataset.id===b.dataset.id && a.dataset.type!==b.dataset.type){
+        a.classList.add('matched'); b.classList.add('matched');
+        matchedCount++;
+        document.getElementById('matched').textContent=matchedCount;
+        flipped=[]; locked=false;
+        if(matchedCount===PAIRS.length){
+          setTimeout(()=>document.getElementById('celebration').classList.add('visible'),400);
+        }
+      } else {
+        setTimeout(()=>{
+          a.classList.remove('flipped'); b.classList.remove('flipped');
+          flipped=[]; locked=false;
+        },900);
+      }
+    }
+  }
+
+  function closeRestart(){document.getElementById('celebration').classList.remove('visible');init();}
+  init();
+</script>
+</body>
+</html>
