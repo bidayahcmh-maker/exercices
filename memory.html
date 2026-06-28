@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
     .top-strip { width:100%; max-width:720px; height:4px; background:linear-gradient(90deg,var(--deep),var(--rose),var(--gold)); border-radius:2px; margin-bottom:10px; }
     header { background:linear-gradient(135deg,var(--deep) 0%,#a04560 100%); color:white; width:100%; max-width:720px; border-radius:14px; padding:11px 22px; text-align:center; margin-bottom:12px; position:relative; overflow:hidden; box-shadow:0 4px 18px rgba(122,51,71,.25); }
     header::before { content:'البداية'; font-size:5rem; font-weight:700; color:rgba(255,255,255,.06); position:absolute; right:-.5rem; top:-1rem; line-height:1; pointer-events:none; font-family:Arial,sans-serif; direction:rtl; }
-    header .ar { font-size:1.3rem; direction:rtl; font-family:Arial,'Geeza Pro',serif; margin-bottom:2px; position:relative; }
+    header .ar { font-size:1.1rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; margin-bottom:4px; position:relative; opacity:.95; }
     header h1 { font-size:.82rem; font-weight:600; opacity:.9; position:relative; }
 
     .score-bar { display:flex; gap:10px; margin-bottom:12px; }
@@ -52,12 +52,11 @@
 <body>
   <div class="top-strip"></div>
   <header>
-    <div class="ar">أَتَعَلَّمُ العَرَبِيَّةَ</div>
+    <div class="ar">BIDAYAH &mdash; Exercices vocabulaire</div>
     <h1>✨ Memory · Vocabulaire – Leçons 1 à 10</h1>
   </header>
   <div class="score-bar">
     <div class="pill">🌸 <span id="matched">0</span> / 10 paires</div>
-    <div class="pill">Essais : <span id="tries">0</span></div>
   </div>
 
   <div class="grid" id="grid"></div>
@@ -80,14 +79,13 @@
     {ar:'لِبَاسٌ',fr:'vêtement'},{ar:'جَبَلٌ',fr:'montagne'},{ar:'مَسْجِدٌ',fr:'mosquée'},{ar:'حَاسِبَةٌ',fr:'calculatrice'}
   ];
 
-  let flipped=[], locked=false, matchedCount=0, tries=0;
+  let flipped=[], locked=false, matchedCount=0;
 
   function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b;}
 
   function init(){
-    matchedCount=0; tries=0; flipped=[]; locked=false;
+    matchedCount=0; flipped=[]; locked=false;
     document.getElementById('matched').textContent='0';
-    document.getElementById('tries').textContent='0';
     document.getElementById('celebration').classList.remove('visible');
 
     const cards=[];
@@ -123,8 +121,6 @@
     cell.classList.add('flipped');
     flipped.push(cell);
     if(flipped.length===2){
-      tries++;
-      document.getElementById('tries').textContent=tries;
       locked=true;
       const [a,b]=flipped;
       if(a.dataset.id===b.dataset.id && a.dataset.type!==b.dataset.type){
