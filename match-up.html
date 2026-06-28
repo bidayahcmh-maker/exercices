@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vocabulaire arabe – Leçons 1 à 10</title>
+  <style>
+    :root {
+      --rose:   #c2697c;
+      --deep:   #7a3347;
+      --pale:   #f8ecef;
+      --gold:   #c9a84c;
+      --ivory:  #fef9f5;
+      --dark:   #1e1318;
+      --mid:    #6b5460;
+      --light:  #f3e8ec;
+      --border: #eddde3;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f5eff2;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 16px 10px;
+      color: var(--dark);
+    }
+
+    /* bande décorative top */
+    .top-strip {
+      width: 100%;
+      max-width: 860px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--deep), var(--rose), var(--gold));
+      border-radius: 2px;
+      margin-bottom: 8px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--deep) 0%, #a04560 100%);
+      color: white;
+      width: 100%;
+      max-width: 860px;
+      border-radius: 12px;
+      padding: 12px 24px;
+      text-align: center;
+      margin-bottom: 8px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(122,51,71,0.25);
+    }
+
+    header::before {
+      content: 'البداية';
+      font-size: 7rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.06);
+      position: absolute;
+      right: -1rem;
+      top: -1.5rem;
+      line-height: 1;
+      pointer-events: none;
+      font-family: Arial, sans-serif;
+      direction: rtl;
+    }
+
+    header .arabic-title {
+      font-size: 1.5rem;
+      direction: rtl;
+      font-family: Arial, 'Geeza Pro', serif;
+      margin-bottom: 3px;
+      position: relative;
+      letter-spacing: 0.03em;
+    }
+
+    header h1 {
+      font-size: 0.88rem;
+      font-weight: 600;
+      opacity: 0.92;
+      margin-bottom: 2px;
+      position: relative;
+    }
+
+    header p {
+      font-size: 0.76rem;
+      opacity: 0.68;
+      position: relative;
+    }
+
+    .score-bar {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      padding: 5px 18px;
+      font-weight: 700;
+      color: var(--deep);
+      font-size: 0.82rem;
+      min-width: 110px;
+      text-align: center;
+      box-shadow: 0 1px 5px rgba(194,105,124,0.12);
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      max-width: 860px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .col-head {
+      text-align: center;
+      font-weight: 700;
+      color: var(--deep);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 5px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid var(--rose);
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 6px 12px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--dark);
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+      user-select: none;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.3;
+      box-shadow: 0 1px 3px rgba(194,105,124,0.07);
+      min-height: 0;
+    }
+
+    .card.arabic {
+      font-size: 1.35rem;
+      direction: rtl;
+      font-family: Arial, 'Geeza Pro', serif;
+      line-height: 1.4;
+    }
+
+    .card:hover:not(.matched) {
+      border-color: var(--rose);
+      box-shadow: 0 3px 12px rgba(194,105,124,0.2);
+    }
+
+    .card.selected {
+      border-color: var(--rose);
+      background: var(--pale);
+      box-shadow: 0 0 0 3px rgba(194,105,124,0.22);
+    }
+
+    .card.matched {
+      background: #fdf5e0;
+      border-color: var(--gold);
+      color: #7a600a;
+      cursor: default;
+    }
+
+    .card.wrong {
+      background: #fce8ec;
+      border-color: #e53935;
+      animation: shake 0.35s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%       { transform: translateX(-7px); }
+      40%       { transform: translateX(7px); }
+      60%       { transform: translateX(-5px); }
+      80%       { transform: translateX(5px); }
+    }
+
+    .win-banner { display: none; }
+
+    /* ── OVERLAY CÉLÉBRATION ── */
+    .celebration {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(122, 51, 71, 0.92);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .celebration.visible { display: flex; }
+
+    .lollipop {
+      font-size: 11rem;
+      line-height: 1;
+      animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+                 wobble 1.2s ease-in-out 0.6s infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes popIn {
+      0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+    }
+
+    @keyframes wobble {
+      0%, 100% { transform: rotate(-6deg) scale(1); }
+      50%       { transform: rotate(6deg)  scale(1.05); }
+    }
+
+    .mashallah {
+      font-size: 3.2rem;
+      font-family: Arial, 'Geeza Pro', serif;
+      direction: rtl;
+      color: #f9d97a;
+      font-weight: 700;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+      animation: fadeUp 0.5s ease 0.4s both;
+      margin-bottom: 12px;
+    }
+
+    .praise {
+      font-size: 1.5rem;
+      font-family: Arial, 'Geeza Pro', serif;
+      direction: rtl;
+      color: white;
+      animation: fadeUp 0.5s ease 0.6s both;
+      margin-bottom: 8px;
+    }
+
+    .praise-fr {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.8);
+      animation: fadeUp 0.5s ease 0.75s both;
+      margin-bottom: 28px;
+    }
+
+    @keyframes fadeUp {
+      0%   { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .stars-row {
+      font-size: 2rem;
+      letter-spacing: 8px;
+      animation: fadeUp 0.5s ease 0.9s both;
+      margin-bottom: 28px;
+    }
+
+    .btn-restart {
+      background: #f9d97a;
+      color: var(--deep);
+      border: none;
+      border-radius: 12px;
+      padding: 14px 36px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      animation: fadeUp 0.5s ease 1s both;
+      transition: background 0.15s, transform 0.1s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+
+    .btn-restart:hover { background: white; transform: scale(1.04); }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+      justify-content: center;
+    }
+
+    button {
+      background: var(--rose);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 24px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.15s;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      box-shadow: 0 2px 8px rgba(194,105,124,0.3);
+    }
+
+    button:hover { background: var(--deep); }
+  </style>
+</head>
+<body>
+
+  <div class="top-strip"></div>
+
+  <header>
+    <div class="arabic-title">أَتَعَلَّمُ العَرَبِيَّةَ</div>
+    <h1>✨ Match-up · Vocabulaire – Leçons 1 à 10</h1>
+    <p>Clique sur un mot arabe puis sur sa traduction française pour les relier.</p>
+  </header>
+
+  <div class="score-bar">
+    <div class="pill">★ <span id="correct">0</span> / 10 trouvé(s)</div>
+    <div class="pill">✗ <span id="errors">0</span> erreur(s)</div>
+  </div>
+
+  <div class="columns">
+    <div class="column" id="col-french">
+      <div class="col-head">Français</div>
+    </div>
+    <div class="column" id="col-arabic">
+      <div class="col-head">Arabe</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button onclick="init()">🔄 Recommencer</button>
+  </div>
+
+  <!-- OVERLAY CÉLÉBRATION -->
+  <div class="celebration" id="celebration">
+    <div class="lollipop">🍭</div>
+    <div class="mashallah">مَا شَاءَ اللهُ</div>
+    <div class="praise">أَحْسَنْتِ ! بَارَكَ اللهُ فِيكِ</div>
+    <div class="praise-fr">Bravo ! Tu as trouvé tous les mots !</div>
+    <div class="stars-row">🌸 ⭐ 🌸 ⭐ 🌸</div>
+    <button class="btn-restart" onclick="closeAndRestart()">🔄 Recommencer</button>
+  </div>
+
+<script>
+  const PAIRS = [
+    { ar: 'بَابٌ',     fr: 'porte' },
+    { ar: 'تُوتٌ',     fr: 'mûre' },
+    { ar: 'دُودٌ',     fr: 'ver' },
+    { ar: 'دَارٌ',     fr: 'maison' },
+    { ar: 'كِتَابٌ',   fr: 'livre' },
+    { ar: 'سَرِيرٌ',   fr: 'lit' },
+    { ar: 'لِبَاسٌ',   fr: 'vêtement' },
+    { ar: 'جَبَلٌ',    fr: 'montagne' },
+    { ar: 'مَسْجِدٌ',  fr: 'mosquée' },
+    { ar: 'حَاسِبَةٌ', fr: 'calculatrice' },
+  ];
+
+  let selected = null;
+  let correctCount = 0;
+  let errorCount = 0;
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function init() {
+    correctCount = 0;
+    errorCount = 0;
+    selected = null;
+    document.getElementById('correct').textContent = '0';
+    document.getElementById('errors').textContent = '0';
+    document.getElementById('celebration').classList.remove('visible');
+
+    const colAr = document.getElementById('col-arabic');
+    const colFr = document.getElementById('col-french');
+
+    colFr.innerHTML = '<div class="col-head">Français</div>';
+    colAr.innerHTML = '<div class="col-head">Arabe</div>';
+
+    shuffle(PAIRS).forEach(pair => {
+      colFr.appendChild(makeCard(pair.fr, pair.ar, 'fr'));
+    });
+
+    shuffle(PAIRS).forEach(pair => {
+      colAr.appendChild(makeCard(pair.ar, pair.ar, 'ar'));
+    });
+  }
+
+  function makeCard(label, key, type) {
+    const el = document.createElement('div');
+    el.className = 'card' + (type === 'ar' ? ' arabic' : '');
+    el.textContent = label;
+    el.dataset.key = key;
+    el.dataset.type = type;
+    el.addEventListener('click', onCardClick);
+    return el;
+  }
+
+  function onCardClick(e) {
+    const card = e.currentTarget;
+    if (card.classList.contains('matched')) return;
+
+    if (!selected) {
+      card.classList.add('selected');
+      selected = card;
+      return;
+    }
+
+    if (selected === card) {
+      card.classList.remove('selected');
+      selected = null;
+      return;
+    }
+
+    if (selected.dataset.type === card.dataset.type) {
+      selected.classList.remove('selected');
+      card.classList.add('selected');
+      selected = card;
+      return;
+    }
+
+    if (selected.dataset.key === card.dataset.key) {
+      selected.classList.remove('selected');
+      selected.classList.add('matched');
+      card.classList.add('matched');
+      selected = null;
+      correctCount++;
+      document.getElementById('correct').textContent = correctCount;
+      if (correctCount === PAIRS.length) {
+        setTimeout(() => document.getElementById('celebration').classList.add('visible'), 500);
+      }
+    } else {
+      const a = selected;
+      const b = card;
+      a.classList.add('wrong');
+      b.classList.add('wrong');
+      selected = null;
+      errorCount++;
+      document.getElementById('errors').textContent = errorCount;
+      setTimeout(() => {
+        a.classList.remove('wrong', 'selected');
+        b.classList.remove('wrong', 'selected');
+      }, 600);
+    }
+  }
+
+  function closeAndRestart() {
+    document.getElementById('celebration').classList.remove('visible');
+    init();
+  }
+
+  init();
+</script>
+</body>
+</html>
