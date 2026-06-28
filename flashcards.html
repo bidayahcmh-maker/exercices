@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcards – Vocabulaire Leçons 1 à 10</title>
+  <style>
+    :root { --rose:#c2697c; --deep:#7a3347; --pale:#f8ecef; --gold:#c9a84c; --dark:#1e1318; --mid:#6b5460; --border:#eddde3; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Segoe UI',Arial,sans-serif; background:#f5eff2; height:100vh; display:flex; flex-direction:column; align-items:center; padding:16px 16px 20px; color:var(--dark); overflow:hidden; }
+    .top-strip { width:100%; max-width:600px; height:4px; background:linear-gradient(90deg,var(--deep),var(--rose),var(--gold)); border-radius:2px; margin-bottom:12px; }
+    header { background:linear-gradient(135deg,var(--deep) 0%,#a04560 100%); color:white; width:100%; max-width:600px; border-radius:14px; padding:13px 24px; text-align:center; margin-bottom:14px; position:relative; overflow:hidden; box-shadow:0 4px 18px rgba(122,51,71,.25); }
+    header::before { content:'البداية'; font-size:6rem; font-weight:700; color:rgba(255,255,255,.06); position:absolute; right:-1rem; top:-1.5rem; line-height:1; pointer-events:none; font-family:Arial,sans-serif; direction:rtl; }
+    header .ar { font-size:1.4rem; direction:rtl; font-family:Arial,'Geeza Pro',serif; margin-bottom:3px; position:relative; }
+    header h1 { font-size:.85rem; font-weight:600; opacity:.9; position:relative; }
+    .progress-bar { width:100%; max-width:600px; height:7px; background:var(--border); border-radius:4px; margin-bottom:10px; overflow:hidden; }
+    .progress-fill { height:100%; background:linear-gradient(90deg,var(--rose),var(--gold)); border-radius:4px; transition:width .4s ease; }
+    .counter { font-size:.8rem; color:var(--mid); font-weight:600; margin-bottom:16px; }
+
+    /* CARTE */
+    .scene { width:100%; max-width:500px; flex:1; perspective:1000px; cursor:pointer; margin-bottom:14px; min-height:0; }
+    .card-inner { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform .5s ease; border-radius:18px; }
+    .scene.flipped .card-inner { transform:rotateY(180deg); }
+    .face { position:absolute; inset:0; backface-visibility:hidden; border-radius:18px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; box-shadow:0 4px 20px rgba(122,51,71,.15); }
+    .front { background:white; border:2px solid var(--border); }
+    .back { background:linear-gradient(135deg,var(--deep) 0%,#a04560 100%); color:white; transform:rotateY(180deg); }
+    .face-label { font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; color:var(--mid); margin-bottom:16px; }
+    .back .face-label { color:rgba(255,255,255,.6); }
+    .arabic-big { font-size:4rem; direction:rtl; font-family:Arial,'Geeza Pro',serif; color:var(--deep); line-height:1.3; }
+    .french-big { font-size:2.8rem; font-weight:700; color:white; }
+    .hint { font-size:.75rem; color:var(--mid); margin-top:16px; }
+    .back .hint { color:rgba(255,255,255,.55); }
+
+    .nav { display:flex; gap:12px; align-items:center; }
+    .nav button { background:white; color:var(--deep); border:2px solid var(--border); border-radius:10px; padding:9px 22px; font-size:.88rem; cursor:pointer; font-weight:700; transition:all .15s; }
+    .nav button:hover { background:var(--rose); color:white; border-color:var(--rose); }
+    .nav button:disabled { opacity:.35; cursor:default; background:white; color:var(--mid); border-color:var(--border); }
+    .nav .pos { font-size:.82rem; color:var(--mid); font-weight:600; min-width:60px; text-align:center; }
+
+    .btn-restart { background:var(--rose); color:white; border:none; border-radius:10px; padding:9px 24px; font-size:.85rem; cursor:pointer; font-weight:600; font-family:'Segoe UI',Arial,sans-serif; box-shadow:0 2px 8px rgba(194,105,124,.3); margin-top:10px; }
+    .btn-restart:hover { background:var(--deep); }
+  </style>
+</head>
+<body>
+  <div class="top-strip"></div>
+  <header>
+    <div class="ar">أَتَعَلَّمُ العَرَبِيَّةَ</div>
+    <h1>✨ Flashcards · Vocabulaire – Leçons 1 à 10</h1>
+  </header>
+  <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+  <div class="counter" id="counter">Carte 1 / 10</div>
+
+  <div class="scene" id="scene" onclick="flip()">
+    <div class="card-inner">
+      <div class="face front">
+        <div class="face-label">Mot arabe</div>
+        <div class="arabic-big" id="ar-word"></div>
+        <div class="hint">Clique pour voir la traduction</div>
+      </div>
+      <div class="face back">
+        <div class="face-label">Traduction française</div>
+        <div class="french-big" id="fr-word"></div>
+        <div class="hint">Clique pour retourner</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button id="btn-prev" onclick="go(-1)">← Précédente</button>
+    <span class="pos" id="pos">1 / 10</span>
+    <button id="btn-next" onclick="go(1)">Suivante →</button>
+  </div>
+  <button class="btn-restart" onclick="init()">🔄 Mélanger & Recommencer</button>
+
+<script>
+  const PAIRS = [
+    {ar:'بَابٌ',fr:'porte'},{ar:'تُوتٌ',fr:'mûre'},{ar:'دُودٌ',fr:'ver'},
+    {ar:'دَارٌ',fr:'maison'},{ar:'كِتَابٌ',fr:'livre'},{ar:'سَرِيرٌ',fr:'lit'},
+    {ar:'لِبَاسٌ',fr:'vêtement'},{ar:'جَبَلٌ',fr:'montagne'},{ar:'مَسْجِدٌ',fr:'mosquée'},{ar:'حَاسِبَةٌ',fr:'calculatrice'}
+  ];
+  let deck, idx;
+
+  function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b;}
+
+  function init(){
+    deck=shuffle(PAIRS); idx=0;
+    document.getElementById('scene').classList.remove('flipped');
+    show();
+  }
+
+  function show(){
+    const p=deck[idx];
+    document.getElementById('ar-word').textContent=p.ar;
+    document.getElementById('fr-word').textContent=p.fr;
+    document.getElementById('counter').textContent=`Carte ${idx+1} / 10`;
+    document.getElementById('pos').textContent=`${idx+1} / 10`;
+    document.getElementById('prog').style.width=`${(idx+1)*10}%`;
+    document.getElementById('btn-prev').disabled=idx===0;
+    document.getElementById('btn-next').disabled=idx===deck.length-1;
+    document.getElementById('scene').classList.remove('flipped');
+  }
+
+  function flip(){document.getElementById('scene').classList.toggle('flipped');}
+
+  function go(dir){
+    idx=Math.max(0,Math.min(deck.length-1,idx+dir));
+    show();
+  }
+
+  init();
+</script>
+</body>
+</html>
