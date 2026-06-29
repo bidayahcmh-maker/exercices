@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -150,6 +150,7 @@
       cursor: pointer;
       text-align: center;
       font-size: 0.88rem;
+    .card:not(.arabic) { font-size: 2rem; }
       color: var(--dark);
       transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
       user-select: none;
@@ -334,7 +335,7 @@
 
   <div class="columns">
     <div class="column" id="col-french">
-      <div class="col-head">Français</div>
+      <div class="col-head">Image</div>
     </div>
     <div class="column" id="col-arabic">
       <div class="col-head">Arabe</div>
@@ -357,16 +358,16 @@
 
 <script>
   const PAIRS = [
-    { ar: 'بَابٌ',     fr: 'porte' },
-    { ar: 'تُوتٌ',     fr: 'mûre' },
-    { ar: 'دُودٌ',     fr: 'ver' },
-    { ar: 'دَارٌ',     fr: 'maison' },
-    { ar: 'كِتَابٌ',   fr: 'livre' },
-    { ar: 'سَرِيرٌ',   fr: 'lit' },
-    { ar: 'لِبَاسٌ',   fr: 'vêtement' },
-    { ar: 'جَبَلٌ',    fr: 'montagne' },
-    { ar: 'مَسْجِدٌ',  fr: 'mosquée' },
-    { ar: 'حَاسِبَةٌ', fr: 'calculatrice' },
+    { ar: 'بَابٌ',     fr: '🚪' },
+    { ar: 'تُوتٌ',     fr: '🫐' },
+    { ar: 'دُودٌ',     fr: '🐛' },
+    { ar: 'دَارٌ',     fr: '🏠' },
+    { ar: 'كِتَابٌ',   fr: '📖' },
+    { ar: 'سَرِيرٌ',   fr: '🛏️' },
+    { ar: 'لِبَاسٌ',   fr: '👕' },
+    { ar: 'جَبَلٌ',    fr: '⛰️' },
+    { ar: 'مَسْجِدٌ',  fr: '🕌' },
+    { ar: 'حَاسِبَةٌ', fr: '🧮' },
   ];
 
   let selected = null;
@@ -393,7 +394,7 @@
     const colAr = document.getElementById('col-arabic');
     const colFr = document.getElementById('col-french');
 
-    colFr.innerHTML = '<div class="col-head">Français</div>';
+    colFr.innerHTML = '<div class="col-head">Image</div>';
     colAr.innerHTML = '<div class="col-head">Arabe</div>';
 
     shuffle(PAIRS).forEach(pair => {
@@ -472,3 +473,4 @@
 </script>
 </body>
 </html>
+
