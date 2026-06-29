@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -20,7 +20,7 @@
     .question-label { font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--mid); margin-bottom:12px; }
     .arabic-word { font-size:3.5rem; direction:rtl; font-family:Arial,'Geeza Pro',serif; color:var(--deep); line-height:1.3; }
     .choices { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; max-width:600px; }
-    .choice { background:white; border:2px solid var(--border); border-radius:12px; padding:14px 16px; cursor:pointer; text-align:center; font-size:.95rem; font-weight:600; color:var(--dark); transition:all .15s; box-shadow:0 1px 4px rgba(194,105,124,.07); }
+    .choice { background:white; border:2px solid var(--border); border-radius:12px; padding:14px 16px; cursor:pointer; text-align:center; font-size:2rem; font-weight:600; color:var(--dark); transition:all .15s; box-shadow:0 1px 4px rgba(194,105,124,.07); }
     .choice:hover:not(.locked) { border-color:var(--rose); box-shadow:0 3px 10px rgba(194,105,124,.2); }
     .choice.correct { background:#fdf5e0; border-color:var(--gold); color:#7a600a; }
     .choice.wrong { background:#fce8ec; border-color:#e53935; color:#b71c1c; animation:shake .3s ease; }
@@ -36,10 +36,10 @@
     @keyframes wobble { 0%,100%{transform:rotate(-6deg) scale(1)} 50%{transform:rotate(6deg) scale(1.05)} }
     .mashallah { font-size:3rem; font-family:Arial,'Geeza Pro',serif; direction:rtl; color:#f9d97a; font-weight:700; text-shadow:0 2px 12px rgba(0,0,0,.4); animation:fadeUp .5s ease .4s both; margin-bottom:10px; }
     .praise { font-size:1.4rem; font-family:Arial,'Geeza Pro',serif; direction:rtl; color:white; animation:fadeUp .5s ease .6s both; margin-bottom:6px; }
-    .praise-fr { font-size:.95rem; color:rgba(255,255,255,.8); animation:fadeUp .5s ease .75s both; margin-bottom:24px; }
+    .praise-fr { font-size:2rem; color:rgba(255,255,255,.8); animation:fadeUp .5s ease .75s both; margin-bottom:24px; }
     .stars-row { font-size:1.8rem; letter-spacing:8px; animation:fadeUp .5s ease .9s both; margin-bottom:24px; }
     @keyframes fadeUp { 0%{opacity:0;transform:translateY(20px)} 100%{opacity:1;transform:translateY(0)} }
-    .btn-restart { background:#f9d97a; color:var(--deep); border:none; border-radius:12px; padding:13px 32px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:'Segoe UI',Arial,sans-serif; animation:fadeUp .5s ease 1s both; transition:background .15s,transform .1s; box-shadow:0 4px 16px rgba(0,0,0,.25); }
+    .btn-restart { background:#f9d97a; color:var(--deep); border:none; border-radius:12px; padding:13px 32px; font-size:2rem; font-weight:700; cursor:pointer; font-family:'Segoe UI',Arial,sans-serif; animation:fadeUp .5s ease 1s both; transition:background .15s,transform .1s; box-shadow:0 4px 16px rgba(0,0,0,.25); }
     .btn-restart:hover { background:white; transform:scale(1.04); }
     button.main { background:var(--rose); color:white; border:none; border-radius:10px; padding:9px 26px; font-size:.85rem; cursor:pointer; font-weight:600; transition:background .15s; font-family:'Segoe UI',Arial,sans-serif; box-shadow:0 2px 8px rgba(194,105,124,.3); margin-top:14px; }
     button.main:hover { background:var(--deep); }
@@ -54,7 +54,7 @@
   <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
   <div class="counter" id="counter">Question 1 / 10</div>
   <div class="question-card">
-    <div class="question-label">Quelle est la traduction de ce mot ?</div>
+    <div class="question-label">Quelle image correspond ?</div>
     <div class="arabic-word" id="arabic-word">—</div>
   </div>
   <div class="choices" id="choices"></div>
@@ -72,9 +72,9 @@
 
 <script>
   const PAIRS = [
-    {ar:'بَابٌ',fr:'porte'},{ar:'تُوتٌ',fr:'mûre'},{ar:'دُودٌ',fr:'ver'},
-    {ar:'دَارٌ',fr:'maison'},{ar:'كِتَابٌ',fr:'livre'},{ar:'سَرِيرٌ',fr:'lit'},
-    {ar:'لِبَاسٌ',fr:'vêtement'},{ar:'جَبَلٌ',fr:'montagne'},{ar:'مَسْجِدٌ',fr:'mosquée'},{ar:'حَاسِبَةٌ',fr:'calculatrice'}
+    {ar:'بَابٌ',fr:'🚪'},{ar:'تُوتٌ',fr:'🫐'},{ar:'دُودٌ',fr:'🐛'},
+    {ar:'دَارٌ',fr:'🏠'},{ar:'كِتَابٌ',fr:'📖'},{ar:'سَرِيرٌ',fr:'🛏️'},
+    {ar:'لِبَاسٌ',fr:'👕'},{ar:'جَبَلٌ',fr:'⛰️'},{ar:'مَسْجِدٌ',fr:'🕌'},{ar:'حَاسِبَةٌ',fr:'🧮'}
   ];
   let queue, idx, score;
 
@@ -122,3 +122,4 @@
 </script>
 </body>
 </html>
+
