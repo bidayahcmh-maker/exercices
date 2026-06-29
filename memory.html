@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -29,7 +29,7 @@
     .cell-front-face { background:white; border:2px solid var(--border); transform:rotateY(180deg); flex-direction:column; gap:2px; }
     .cell.matched .cell-front-face { background:#fdf5e0; border-color:var(--gold); }
     .cell-ar { font-size:1.35rem; direction:rtl; font-family:Arial,'Geeza Pro',serif; color:var(--deep); line-height:1.2; }
-    .cell-fr { font-size:.82rem; font-weight:600; color:var(--dark); }
+    .cell-fr { font-size:2.5rem; text-align:center; line-height:1.2; }
     .cell-type { font-size:.6rem; text-transform:uppercase; letter-spacing:.05em; color:var(--mid); }
 
     button.restart { background:var(--rose); color:white; border:none; border-radius:10px; padding:8px 22px; font-size:.82rem; cursor:pointer; font-weight:600; font-family:'Segoe UI',Arial,sans-serif; box-shadow:0 2px 8px rgba(194,105,124,.3); margin-top:10px; }
@@ -74,9 +74,9 @@
 
 <script>
   const PAIRS = [
-    {ar:'بَابٌ',fr:'porte'},{ar:'تُوتٌ',fr:'mûre'},{ar:'دُودٌ',fr:'ver'},
-    {ar:'دَارٌ',fr:'maison'},{ar:'كِتَابٌ',fr:'livre'},{ar:'سَرِيرٌ',fr:'lit'},
-    {ar:'لِبَاسٌ',fr:'vêtement'},{ar:'جَبَلٌ',fr:'montagne'},{ar:'مَسْجِدٌ',fr:'mosquée'},{ar:'حَاسِبَةٌ',fr:'calculatrice'}
+    {ar:'بَابٌ',fr:'🚪'},{ar:'تُوتٌ',fr:'🫐'},{ar:'دُودٌ',fr:'🐛'},
+    {ar:'دَارٌ',fr:'🏠'},{ar:'كِتَابٌ',fr:'📖'},{ar:'سَرِيرٌ',fr:'🛏️'},
+    {ar:'لِبَاسٌ',fr:'👕'},{ar:'جَبَلٌ',fr:'⛰️'},{ar:'مَسْجِدٌ',fr:'🕌'},{ar:'حَاسِبَةٌ',fr:'🧮'}
   ];
 
   let flipped=[], locked=false, matchedCount=0;
@@ -107,7 +107,7 @@
         <div class="cell-face cell-front-face">
           ${c.type==='ar'
             ? `<div class="cell-type">arabe</div><div class="cell-ar">${c.ar}</div>`
-            : `<div class="cell-type">français</div><div class="cell-fr">${c.fr}</div>`
+            : `<div class="cell-type">image</div><div class="cell-fr">${c.fr}</div>`
           }
         </div>
       </div>`;
@@ -145,3 +145,4 @@
 </script>
 </body>
 </html>
+
