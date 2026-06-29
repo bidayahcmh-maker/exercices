@@ -5,25 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Al Bidayah — Exercices</title>
   <style>
-    :root { --rose:#c2697c; --deep:#7a3347; --pale:#f8ecef; --gold:#c9a84c; --dark:#1e1318; --mid:#6b5460; --border:#eddde3; }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    body { font-family:'Segoe UI',Arial,sans-serif; background:#f5eff2; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:24px 16px 48px; color:var(--dark); }
-    .top-strip { width:100%; max-width:640px; height:4px; background:linear-gradient(90deg,var(--deep),var(--rose),var(--gold)); border-radius:2px; margin-bottom:16px; }
-    header { background:linear-gradient(135deg,var(--deep) 0%,#a04560 100%); color:white; width:100%; max-width:640px; border-radius:16px; padding:22px 28px; text-align:center; margin-bottom:28px; position:relative; overflow:hidden; box-shadow:0 6px 24px rgba(122,51,71,.3); }
-    header::before { content:'البداية'; font-size:7rem; font-weight:700; color:rgba(255,255,255,.06); position:absolute; right:-1rem; top:-1.5rem; line-height:1; pointer-events:none; font-family:Arial,sans-serif; direction:rtl; }
-    .logo-ar { font-size:2.2rem; direction:rtl; font-family:Arial,'Geeza Pro',serif; margin-bottom:6px; position:relative; }
-    header h1 { font-size:1rem; font-weight:600; opacity:.85; position:relative; margin-bottom:4px; }
-    header p { font-size:.8rem; opacity:.65; position:relative; }
-    .subtitle { font-size:.78rem; color:var(--mid); font-weight:600; text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; width:100%; max-width:640px; }
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; max-width:640px; }
-    .game-card { background:white; border:1.5px solid var(--border); border-radius:14px; padding:20px 18px; text-decoration:none; color:var(--dark); display:flex; flex-direction:column; gap:8px; box-shadow:0 2px 10px rgba(194,105,124,.08); transition:all .18s; cursor:pointer; }
-    .game-card:hover { border-color:var(--rose); box-shadow:0 6px 20px rgba(194,105,124,.2); transform:translateY(-2px); }
-    .game-icon { font-size:2.2rem; }
-    .game-title { font-size:.95rem; font-weight:700; color:var(--deep); }
-    .game-desc { font-size:.78rem; color:var(--mid); line-height:1.4; }
-    .game-tag { display:inline-block; background:var(--pale); color:var(--rose); font-size:.68rem; font-weight:700; padding:3px 10px; border-radius:20px; border:1px solid var(--border); margin-top:2px; }
-    .vocab-note { background:white; border:1.5px solid var(--border); border-radius:12px; padding:14px 18px; width:100%; max-width:640px; margin-top:20px; text-align:center; font-size:.8rem; color:var(--mid); }
-    .vocab-note strong { color:var(--deep); }
+    :root{--rose:#c2697c;--deep:#7a3347;--pale:#f8ecef;--gold:#c9a84c;--dark:#1e1318;--mid:#6b5460;--border:#eddde3;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#f5eff2;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 14px 48px;color:var(--dark);}
+    .top-strip{width:100%;max-width:640px;height:4px;background:linear-gradient(90deg,var(--deep),var(--rose),var(--gold));border-radius:2px;margin-bottom:14px;}
+    header{background:linear-gradient(135deg,var(--deep) 0%,#a04560 100%);color:white;width:100%;max-width:640px;border-radius:16px;padding:20px 24px;text-align:center;margin-bottom:24px;position:relative;overflow:hidden;box-shadow:0 6px 24px rgba(122,51,71,.3);}
+    header::before{content:'البداية';font-size:7rem;font-weight:700;color:rgba(255,255,255,.06);position:absolute;right:-1rem;top:-1.5rem;line-height:1;pointer-events:none;font-family:Arial,sans-serif;direction:rtl;}
+    .logo-ar{font-size:2rem;direction:rtl;font-family:Arial,'Geeza Pro',serif;margin-bottom:5px;position:relative;}
+    header h1{font-size:.95rem;font-weight:600;opacity:.85;position:relative;margin-bottom:3px;}
+    header p{font-size:.75rem;opacity:.6;position:relative;}
+    .section-label{font-size:.73rem;color:var(--mid);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;width:100%;max-width:640px;padding-right:4px;}
+    .section-bar{width:100%;max-width:640px;height:2px;background:linear-gradient(90deg,var(--rose),transparent);margin-bottom:14px;}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;width:100%;max-width:640px;margin-bottom:22px;}
+    .grid.single{grid-template-columns:1fr;}
+    a.card{background:white;border:1.5px solid var(--border);border-radius:14px;padding:18px 16px;text-decoration:none;color:var(--dark);display:flex;flex-direction:column;gap:7px;box-shadow:0 2px 10px rgba(194,105,124,.08);transition:all .18s;}
+    a.card:hover{border-color:var(--rose);box-shadow:0 6px 20px rgba(194,105,124,.2);transform:translateY(-2px);}
+    .card-icon{font-size:2rem;}
+    .card-title{font-size:.9rem;font-weight:700;color:var(--deep);}
+    .card-desc{font-size:.75rem;color:var(--mid);line-height:1.4;}
+    .card-tag{display:inline-block;background:var(--pale);color:var(--rose);font-size:.66rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid var(--border);margin-top:2px;}
+    a.card.featured{border-color:var(--gold);background:linear-gradient(135deg,#fffdf5,#fff9e8);}
+    a.card.featured .card-title{color:#7a600a;}
+    a.card.featured .card-tag{background:#fdf5e0;color:#7a600a;border-color:var(--gold);}
   </style>
 </head>
 <body>
@@ -31,46 +34,53 @@
   <header>
     <div class="logo-ar">البِدَايَةُ</div>
     <h1>Espace Exercices</h1>
-    <p>Leçons 1 à 10 · Vocabulaire arabe</p>
+    <p>Vocabulaire &amp; Cours d'arabe</p>
   </header>
 
-  <div class="subtitle">Choisis ton exercice</div>
-
-  <div class="grid">
-    <a class="game-card" href="match-up.html">
-      <div class="game-icon">🔗</div>
-      <div class="game-title">Match-up</div>
-      <div class="game-desc">Relie chaque mot arabe à sa traduction française.</div>
-      <span class="game-tag">10 mots</span>
-    </a>
-    <a class="game-card" href="qcm.html">
-      <div class="game-icon">🎯</div>
-      <div class="game-title">QCM</div>
-      <div class="game-desc">Choisis la bonne traduction parmi 4 propositions.</div>
-      <span class="game-tag">10 questions</span>
-    </a>
-    <a class="game-card" href="flashcards.html">
-      <div class="game-icon">🃏</div>
-      <div class="game-title">Flashcards</div>
-      <div class="game-desc">Retourne la carte pour voir la traduction.</div>
-      <span class="game-tag">10 cartes</span>
-    </a>
-    <a class="game-card" href="vrai-faux.html">
-      <div class="game-icon">✓✗</div>
-      <div class="game-title">Vrai / Faux</div>
-      <div class="game-desc">Cette paire arabe-français est-elle correcte ?</div>
-      <span class="game-tag">10 questions</span>
-    </a>
-    <a class="game-card" href="memory.html" style="grid-column:1/-1">
-      <div class="game-icon">🌸</div>
-      <div class="game-title">Memory</div>
-      <div class="game-desc">Retourne les cartes et trouve les 10 paires cachées.</div>
-      <span class="game-tag">20 cartes</span>
+  <div class="section-label">Cours de lecture</div>
+  <div class="section-bar"></div>
+  <div class="grid single">
+    <a class="card featured" href="cours-fi-madrassati-sana.html">
+      <div class="card-icon">📚</div>
+      <div class="card-title">في الْمَدْرَسَةِ &nbsp;— Cours Sana</div>
+      <div class="card-desc">Fiche de cours complète : texte, vocabulaire, grammaire, exercices &amp; dictée.</div>
+      <span class="card-tag">⏱ 1 heure · Niveau 1</span>
     </a>
   </div>
 
-  <div class="vocab-note">
-    📖 Tous les exercices portent sur les <strong>10 premiers mots</strong> du manuel · Leçons 1 à 10
+  <div class="section-label">Exercices vocabulaire — Leçons 1 à 10</div>
+  <div class="section-bar"></div>
+  <div class="grid">
+    <a class="card" href="match-up.html">
+      <div class="card-icon">🔗</div>
+      <div class="card-title">Match-up</div>
+      <div class="card-desc">Relie chaque mot arabe à son image.</div>
+      <span class="card-tag">10 mots</span>
+    </a>
+    <a class="card" href="qcm.html">
+      <div class="card-icon">🎯</div>
+      <div class="card-title">QCM</div>
+      <div class="card-desc">Choisis la bonne image parmi 4 propositions.</div>
+      <span class="card-tag">10 questions</span>
+    </a>
+    <a class="card" href="flashcards.html">
+      <div class="card-icon">🃏</div>
+      <div class="card-title">Flashcards</div>
+      <div class="card-desc">Retourne la carte pour voir l'image.</div>
+      <span class="card-tag">10 cartes</span>
+    </a>
+    <a class="card" href="vrai-faux.html">
+      <div class="card-icon">✓✗</div>
+      <div class="card-title">Vrai / Faux</div>
+      <div class="card-desc">Cette paire arabe-image est-elle correcte ?</div>
+      <span class="card-tag">10 questions</span>
+    </a>
+    <a class="card" href="memory.html" style="grid-column:1/-1">
+      <div class="card-icon">🌸</div>
+      <div class="card-title">Memory</div>
+      <div class="card-desc">Retourne les cartes et trouve les 10 paires cachées.</div>
+      <span class="card-tag">20 cartes</span>
+    </a>
   </div>
 </body>
 </html>
