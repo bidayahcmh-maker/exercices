@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -23,7 +23,7 @@
     .pair-label { font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; color:var(--mid); margin-bottom:16px; }
     .pair-arabic { font-size:3.2rem; direction:rtl; font-family:Arial,'Geeza Pro',serif; color:var(--deep); margin-bottom:12px; line-height:1.3; }
     .pair-sep { font-size:1.4rem; color:var(--mid); margin-bottom:12px; }
-    .pair-french { font-size:1.6rem; font-weight:700; color:var(--dark); }
+    .pair-french { font-size:3.5rem; text-align:center; line-height:1.2; margin:8px 0; }
     .feedback { font-size:1rem; font-weight:700; margin-top:14px; opacity:0; transition:opacity .2s; }
     .feedback.show { opacity:1; }
     .feedback.ok { color:#7a600a; }
@@ -95,9 +95,9 @@
 
 <script>
   const PAIRS = [
-    {ar:'بَابٌ',fr:'porte'},{ar:'تُوتٌ',fr:'mûre'},{ar:'دُودٌ',fr:'ver'},
-    {ar:'دَارٌ',fr:'maison'},{ar:'كِتَابٌ',fr:'livre'},{ar:'سَرِيرٌ',fr:'lit'},
-    {ar:'لِبَاسٌ',fr:'vêtement'},{ar:'جَبَلٌ',fr:'montagne'},{ar:'مَسْجِدٌ',fr:'mosquée'},{ar:'حَاسِبَةٌ',fr:'calculatrice'}
+    {ar:'بَابٌ',fr:'🚪'},{ar:'تُوتٌ',fr:'🫐'},{ar:'دُودٌ',fr:'🐛'},
+    {ar:'دَارٌ',fr:'🏠'},{ar:'كِتَابٌ',fr:'📖'},{ar:'سَرِيرٌ',fr:'🛏️'},
+    {ar:'لِبَاسٌ',fr:'👕'},{ar:'جَبَلٌ',fr:'⛰️'},{ar:'مَسْجِدٌ',fr:'🕌'},{ar:'حَاسِبَةٌ',fr:'🧮'}
   ];
   let queue, idx, good, bad;
 
@@ -165,3 +165,4 @@
 </script>
 </body>
 </html>
+
