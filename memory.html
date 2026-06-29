@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -17,20 +17,15 @@
     .score-bar { display:flex; gap:10px; margin-bottom:12px; }
     .pill { background:white; border:1.5px solid var(--border); border-radius:20px; padding:5px 16px; font-weight:700; color:var(--deep); font-size:.8rem; }
 
-    /* GRILLE */
     .grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; width:100%; max-width:720px; flex:1; min-height:0; }
     .cell { perspective:600px; cursor:pointer; min-height:0; }
     .cell-inner { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform .45s ease; border-radius:10px; }
-    .cell.flipped .cell-inner { transform:rotateY(180deg); }
-    .cell.matched .cell-inner { transform:rotateY(180deg); }
-    .cell-face { position:absolute; inset:0; backface-visibility:hidden; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:4px; text-align:center; }
-    .cell-back-face { background:linear-gradient(135deg,var(--deep),var(--rose)); border:2px solid transparent; }
-    .cell-back-face::after { content:'🌸'; font-size:1.4rem; }
-    .cell-front-face { background:white; border:2px solid var(--border); transform:rotateY(180deg); flex-direction:column; gap:2px; }
-    .cell.matched .cell-front-face { background:#fdf5e0; border-color:var(--gold); }
-    .cell-ar { font-size:1.35rem; direction:rtl; font-family:Arial,'Geeza Pro',serif; color:var(--deep); line-height:1.2; }
-    .cell-fr { font-size:2.5rem; text-align:center; line-height:1.2; }
-    .cell-type { font-size:.6rem; text-transform:uppercase; letter-spacing:.05em; color:var(--mid); }
+    .cell.flipped .cell-inner, .cell.matched .cell-inner { transform:rotateY(180deg); }
+    .cell-face { position:absolute; inset:0; backface-visibility:hidden; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+    .cell-back { background:linear-gradient(135deg,var(--deep),var(--rose)); }
+    .cell-back::after { content:'🌸'; font-size:1.6rem; }
+    .cell-front { background:white; border:2px solid var(--border); transform:rotateY(180deg); font-size:2.4rem; }
+    .cell.matched .cell-front { background:#fdf5e0; border-color:var(--gold); }
 
     button.restart { background:var(--rose); color:white; border:none; border-radius:10px; padding:8px 22px; font-size:.82rem; cursor:pointer; font-weight:600; font-family:'Segoe UI',Arial,sans-serif; box-shadow:0 2px 8px rgba(194,105,124,.3); margin-top:10px; }
     button.restart:hover { background:var(--deep); }
@@ -73,11 +68,7 @@
   </div>
 
 <script>
-  const PAIRS = [
-    {ar:'بَابٌ',fr:'🚪'},{ar:'تُوتٌ',fr:'🫐'},{ar:'دُودٌ',fr:'🐛'},
-    {ar:'دَارٌ',fr:'🏠'},{ar:'كِتَابٌ',fr:'📖'},{ar:'سَرِيرٌ',fr:'🛏️'},
-    {ar:'لِبَاسٌ',fr:'👕'},{ar:'جَبَلٌ',fr:'⛰️'},{ar:'مَسْجِدٌ',fr:'🕌'},{ar:'حَاسِبَةٌ',fr:'🧮'}
-  ];
+  const EMOJIS = ['🚪','🫐','🐛','🏠','📖','🛏️','👕','⛰️','🕌','🧮'];
 
   let flipped=[], locked=false, matchedCount=0;
 
@@ -89,9 +80,9 @@
     document.getElementById('celebration').classList.remove('visible');
 
     const cards=[];
-    PAIRS.forEach(p=>{
-      cards.push({id:p.ar, type:'ar', ar:p.ar, fr:p.fr});
-      cards.push({id:p.ar, type:'fr', ar:p.ar, fr:p.fr});
+    EMOJIS.forEach((em,i)=>{
+      cards.push({pairId:i, em:em});
+      cards.push({pairId:i, em:em});
     });
     const shuffled=shuffle(cards);
     const grid=document.getElementById('grid');
@@ -99,17 +90,11 @@
     shuffled.forEach((c,i)=>{
       const cell=document.createElement('div');
       cell.className='cell';
-      cell.dataset.id=c.id;
-      cell.dataset.type=c.type;
-      cell.dataset.idx=i;
+      cell.dataset.pairid=c.pairId;
+      cell.dataset.uid=i;
       cell.innerHTML=`<div class="cell-inner">
-        <div class="cell-face cell-back-face"></div>
-        <div class="cell-face cell-front-face">
-          ${c.type==='ar'
-            ? `<div class="cell-type">arabe</div><div class="cell-ar">${c.ar}</div>`
-            : `<div class="cell-type">image</div><div class="cell-fr">${c.fr}</div>`
-          }
-        </div>
+        <div class="cell-face cell-back"></div>
+        <div class="cell-face cell-front">${c.em}</div>
       </div>`;
       cell.addEventListener('click',()=>onFlip(cell));
       grid.appendChild(cell);
@@ -123,12 +108,12 @@
     if(flipped.length===2){
       locked=true;
       const [a,b]=flipped;
-      if(a.dataset.id===b.dataset.id && a.dataset.type!==b.dataset.type){
+      if(a.dataset.pairid===b.dataset.pairid){
         a.classList.add('matched'); b.classList.add('matched');
         matchedCount++;
         document.getElementById('matched').textContent=matchedCount;
         flipped=[]; locked=false;
-        if(matchedCount===PAIRS.length){
+        if(matchedCount===EMOJIS.length){
           setTimeout(()=>document.getElementById('celebration').classList.add('visible'),400);
         }
       } else {
@@ -145,4 +130,3 @@
 </script>
 </body>
 </html>
-
